@@ -1,0 +1,17 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches:
+      - main  # Run this workflow only when pushing to the main branch
+
+jobs:
+  build:
+    runs-on: windows-latest  # 🪟 Use a Windows machine
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3  # This step gets your code from GitHub
+
+    - name: Run tests
+      run: echo "Running tests on Windows..."
