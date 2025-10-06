@@ -31,3 +31,4 @@ reports/
 .idea/
 *.sublime-workspace
 *.sublime-project
+.env

@@ -1,17 +1,35 @@
-name: CI Pipeline
+name: Crawl and Validate Links
 
 on:
-  push:
-    branches:
-      - main  # Run this workflow only when pushing to the main branch
+  schedule:
 
+     - cron: '30 1 * * *'  # 1:30 AM UTC = 7:00 AM IST daily
+ 
 jobs:
-  build:
-    runs-on: windows-latest  # 🪟 Use a Windows machine
+  crawl-and-validate:
+    runs-on: windows-latest
+    timeout-minutes: 40
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3  # This step gets your code from GitHub
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-    - name: Run tests
-      run: echo "Running tests on Windows..."
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm install
+
+      # - name: Run UTM crawl and generate report
+      #   run: npx cucumber-js --tags @utm --fail-fast
+
+      - name: Run Broken Link crawl and generate report
+        run: npx cucumber-js --tags @broken --fail-fast
+
+      - name: Upload reports as artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: crawl-reports
+          path: reports/
