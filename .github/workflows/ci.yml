@@ -2,12 +2,12 @@ name: Crawl and Validate Links
 
 on:
   schedule:
-     - cron: '30 7 * * *'  # 7:30 AM UTC = 1:00 PM IST
+    - cron: '30 7 * * *'  # 7:30 AM UTC = 1:00 PM IST
 
 jobs:
   crawl-and-validate:
     runs-on: windows-latest
-    timeout-minutes: 40
+    timeout-minutes: 100
 
     steps:
       - name: Checkout code
@@ -21,14 +21,17 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      # - name: Run UTM crawl and generate report
-      #   run: npx cucumber-js --tags @utm --fail-fast
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+
+      - name: Run UTM crawl and generate report
+        run: npx cucumber-js --tags @utm --fail-fast
 
       - name: Run Broken Link crawl and generate report
         run: npx cucumber-js --tags @broken --fail-fast
 
       - name: Upload reports as artifact
-        uses: actions/upload-artifact@v4  
+        uses: actions/upload-artifact@v4
         with:
           name: crawl-reports
           path: reports/

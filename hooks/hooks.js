@@ -6,7 +6,7 @@ const fs = require('fs');
 const path = require('path');
 const reporter = require('cucumber-html-reporter');
 
-setDefaultTimeout(500000);
+setDefaultTimeout(60 * 60 * 1000); // 40 minutes
 
 let browser;
 let context;
