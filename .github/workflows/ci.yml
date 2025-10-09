@@ -2,7 +2,7 @@ name: Crawl and Validate Links
 
 on:
   schedule:
-    - cron: '30 9 * * *'  # 9:30 AM UTC = 3:00 PM IST
+    - cron: '30 10 * * *'  # 10:30 AM UTC = 4:00 PM IST
 
 
 jobs:
@@ -40,6 +40,7 @@ jobs:
           )
 
       - name: List contents of report folder
+        shell: cmd
         run: dir reports /s
 
       - name: Upload reports as artifact
