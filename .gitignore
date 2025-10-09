@@ -10,7 +10,7 @@ yarn-error.log*
 
 # Playwright test reports/screenshots/videos
 screenshots/
-videos/
+# videos/
 
 # Environment variables
 .env
@@ -20,7 +20,7 @@ videos/
 Thumbs.db
 
 # Excel reports
-reports/
+# reports/
 
 # Temporary files
 *.tmp

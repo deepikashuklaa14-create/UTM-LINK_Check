@@ -11,10 +11,10 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4  # Updated to latest version
+        uses: actions/checkout@v4
 
       - name: Setup Node.js environment
-        uses: actions/setup-node@v4  # Updated to latest version
+        uses: actions/setup-node@v4
         with:
           node-version: 22
 
@@ -29,6 +29,16 @@ jobs:
 
       - name: Run Broken Link crawl and generate report
         run: npx cucumber-js --tags @broken --fail-fast
+
+      - name: Move Playwright videos to report folder
+        run: |
+          if exist videos (
+            mkdir reports\videos
+            xcopy /E /I /Y videos reports\videos
+          )
+
+      - name: List contents of report folder
+        run: dir reports /s
 
       - name: Upload reports as artifact
         uses: actions/upload-artifact@v4

@@ -1,5 +1,5 @@
 module.exports = [
-     'https://www.lsbf.edu.sg',
+      'https://www.lsbf.edu.sg',
     // 'https://www.torontosom.ca/',
     // 'https://www.lsbf.edu.my',
     // 'https://gus-lcca-wp.go-vip.net/',
