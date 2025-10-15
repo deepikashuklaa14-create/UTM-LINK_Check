@@ -1,5 +1,5 @@
 module.exports = [
-       'https://www.lsbf.edu.sg',
+      'https://www.lsbf.edu.sg',
     // 'https://www.torontosom.ca/',
     // 'https://www.lsbf.edu.my',
     // 'https://gus-lcca-wp.go-vip.net/',
@@ -13,8 +13,12 @@ module.exports = [
 //  'https://gus-tsom-wp-stage.go-vip.net/'
 
  'https://www.torontosom.ca/',
-// 'https://gus-tsom-wp-develop.go-vip.net/',
+ 'https://gus-lcca-wp.go-vip.net/'
+ 
+//  'https://gus-tsom-wp-develop.go-vip.net/',
+//  'https://lsbf-my-dev-ins.go-vip.net/',
 
-// 'https://lsbf.edu.my/',
+//  'https://lsbf.edu.my',
+// 'https://gus-lcca-wp-develop.go-vip.net',
   // Add more URLs here...
 ];

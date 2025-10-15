@@ -4,7 +4,6 @@ on:
   schedule:
     - cron: '30 10 * * *'  # 10:30 AM UTC = 4:00 PM IST
 
-
 jobs:
   crawl-and-validate:
     runs-on: windows-latest
@@ -31,20 +30,21 @@ jobs:
       - name: Run Broken Link crawl and generate report
         run: npx cucumber-js --tags @broken --fail-fast
 
-      - name: Move Playwright videos to report folder
-        shell: cmd
+      - name: Move Playwright videos to report folder (if any)
         run: |
-          if exist videos (
-            mkdir reports\videos
-            xcopy /E /I /Y videos reports\videos
-          )
+          if (Test-Path "videos") {
+            New-Item -ItemType Directory -Force -Path "reports/videos"
+            Copy-Item -Recurse -Force "videos/*" "reports/videos/"
+          }
 
-      - name: List contents of report folder
-        shell: cmd
-        run: dir reports /s
+      - name:  List .xlsx files in report folder
+        run: Get-ChildItem -Path reports -Recurse -Filter *.xlsx
 
-      - name: Upload reports as artifact
+      - name: ✅ List all files in reports folder
+        run: Get-ChildItem -Recurse -Path reports
+
+      - name:  Upload only Excel reports as artifact
         uses: actions/upload-artifact@v4
         with:
           name: crawl-reports
-          path: reports/
+          path: reports/**/*.xlsx
