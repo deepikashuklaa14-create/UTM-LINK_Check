@@ -1,50 +1,47 @@
 name: Crawl and Validate Links
-
 on:
-  schedule:
-    - cron: '30 10 * * *'  # 10:30 AM UTC = 4:00 PM IST
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
 
 jobs:
-  crawl-and-validate:
-    runs-on: windows-latest
-    timeout-minutes: 100
+  Crawl-Validate-Links:
+    runs-on: windows-latest   # Use Windows since your steps are PowerShell-friendly
 
     steps:
+      # 1️⃣ Checkout repository
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup Node.js environment
+      # 2️⃣ Setup Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 20
 
+      # 3️⃣ Install dependencies
       - name: Install dependencies
-        run: npm install
-
+        run: npm ci
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
 
-      - name: Run UTM crawl and generate report
-        run: npx cucumber-js --tags @utm --fail-fast
-
-      - name: Run Broken Link crawl and generate report
-        run: npx cucumber-js --tags @broken --fail-fast
-
-      - name: Move Playwright videos to report folder (if any)
+      # 4️⃣ Ensure reports folder exists
+      - name: Prepare reports folder
         run: |
-          if (Test-Path "videos") {
-            New-Item -ItemType Directory -Force -Path "reports/videos"
-            Copy-Item -Recurse -Force "videos/*" "reports/videos/"
-          }
+          if (-not (Test-Path "reports")) { New-Item -ItemType Directory -Path "reports" }
 
-      - name:  List .xlsx files in report folder
-        run: Get-ChildItem -Path reports -Recurse -Filter *.xlsx
+      # 5️⃣ Run Cucumber smoke tests
+      - name: Run Crawl and Validate Links Tests
+        run: npx cucumber-js --tags "@smoke" --fail-fast
 
-      - name: ✅ List all files in reports folder
-        run: Get-ChildItem -Recurse -Path reports
+      # 6️⃣ Generate HTML report
+      - name: Generate HTML Report
+        run: node report.js
 
-      - name:  Upload only Excel reports as artifact
+      # 7️⃣ Upload reports as artifacts
+      - name: Upload Reports
         uses: actions/upload-artifact@v4
         with:
-          name: crawl-reports
-          path: reports/**/*.xlsx
+          name: Crawl_and_Validate_Links-test-reports
+          path: reports/

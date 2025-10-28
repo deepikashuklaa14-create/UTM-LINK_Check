@@ -1,12 +1,11 @@
 module.exports = {
-  default: [
-    
-    '--require features/step_definitions/**/*.js',
-    '--require hooks/**/*.js',
-    '--format json:reports/cucumber_report.json',
-    '--format progress-bar',
-    '--tags "not @skip"',
-    '--retry 0',
-    '--parallel 1',        // Important for video
-  ].join(' ')
+  default: {
+    require: [
+      'hooks/hooks.js',
+      'features/step_definitions/smokeSteps.js',
+    ],
+    // format: ['json:./reports/cucumber-report.json'],
+    paths: ['features/**/*.feature'],
+    default: `--format json:reports/cucumber_report.json`,
+  },
 };
