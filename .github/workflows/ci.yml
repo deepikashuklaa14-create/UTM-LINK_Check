@@ -47,10 +47,10 @@ jobs:
         run: npm list --depth=0
 
       # 9️⃣ Generate HTML report (fail gracefully)
-      - name: Generate HTML Report
-        run: |
-          echo "Generating HTML report..."
-          node report.js || echo "⚠️ report.js failed or JSON missing, skipping HTML report generation."
+      # - name: Generate HTML Report
+      #   run: |
+      #     echo "Generating HTML report..."
+      #     node report.js || echo "⚠️ report.js failed or JSON missing, skipping HTML report generation."
 
       # 🔟 Upload reports as artifacts
       - name: Upload Reports
