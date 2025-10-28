@@ -5,7 +5,7 @@ module.exports = {
       'features/step_definitions/utm_step.js',
     ],
     
-    paths: ['features/utm_check.feature'],
+    paths: ['features/**/*.feature'],
     default: `--format json:reports/cucumber_report.json`,
   },
 };

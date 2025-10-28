@@ -36,7 +36,8 @@ jobs:
 
       # 6️⃣ Run Cucumber smoke tests
       - name: Run Crawl and Validate Links Tests
-        run: npx cucumber-js --tags "@smoke" --fail-fast
+        run: npx cucumber-js --tags "@broken and @utm" --fail-fast
+       
 
       # 7️⃣ Debug: list files to ensure report.js exists
       - name: List repository files
