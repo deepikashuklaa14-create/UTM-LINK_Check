@@ -1,8 +1,8 @@
 module.exports = [
       // 'https://www.lsbf.edu.sg',
     //  'https://www.torontosom.ca/',
-    //  'https://www.lsbf.edu.my',
-     'https://www.lcca.ac.uk/',
+    'https://www.lsbf.edu.my',
+    //  'https://www.lcca.ac.uk/',
     // 'https://thelanguagegallerycanada.com/',
     // 'https://gus-lcca-wp.go-vip.net/',
     // 'https://gus-tlg-wp-stage.go-vip.net/',
