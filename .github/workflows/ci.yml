@@ -1,4 +1,5 @@
 name: Crawl and Validate Links
+
 on:
   push:
     branches: [ main ]
@@ -6,8 +7,8 @@ on:
     branches: [ main ]
 
 jobs:
-  Crawl-Validate-Links:
-    runs-on: windows-latest   # Use Windows since your steps are PowerShell-friendly
+  crawl-validate-links:
+    runs-on: windows-latest
 
     steps:
       # 1️⃣ Checkout repository
@@ -23,23 +24,27 @@ jobs:
       # 3️⃣ Install dependencies
       - name: Install dependencies
         run: npm ci
+
+      # 4️⃣ Install Playwright browsers
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
 
-      # 4️⃣ Ensure reports folder exists
+      # 5️⃣ Ensure reports folder exists
       - name: Prepare reports folder
         run: |
           if (-not (Test-Path "reports")) { New-Item -ItemType Directory -Path "reports" }
 
-      # 5️⃣ Run Cucumber smoke tests
+      # 6️⃣ Run Cucumber smoke tests
       - name: Run Crawl and Validate Links Tests
         run: npx cucumber-js --tags "@smoke" --fail-fast
 
-      # 6️⃣ Generate HTML report
+      # 7️⃣ Generate HTML report (fail gracefully)
       - name: Generate HTML Report
-        run: node report.js
+        run: |
+          echo "Generating HTML report..."
+          node report.js || echo "⚠️ report.js failed, skipping HTML report generation."
 
-      # 7️⃣ Upload reports as artifacts
+      # 8️⃣ Upload reports as artifacts
       - name: Upload Reports
         uses: actions/upload-artifact@v4
         with:
