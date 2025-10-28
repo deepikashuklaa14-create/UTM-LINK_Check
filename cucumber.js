@@ -2,7 +2,7 @@ module.exports = {
   default: {
     require: [
       'hooks/hooks.js',
-      'features/step_definitions/smokeSteps.js',
+      'features/**/*.js',
     ],
     // format: ['json:./reports/cucumber-report.json'],
     paths: ['features/**/*.feature'],
