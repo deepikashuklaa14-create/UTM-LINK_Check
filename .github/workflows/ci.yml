@@ -9,7 +9,7 @@ on:
 jobs:
   crawl-validate-links:
     runs-on: windows-latest
-
+    
     steps:
       # 1️⃣ Checkout repository
       - name: Checkout code
@@ -34,26 +34,17 @@ jobs:
         run: |
           if (-not (Test-Path "reports")) { New-Item -ItemType Directory -Path "reports" }
 
-      # 6️⃣ Run Cucumber smoke tests
+      # 6️⃣ Run Cucumber smoke tests via npm script
       - name: Run Crawl and Validate Links Tests
-        run: npx cucumber-js --tags "@broken or @utm" --fail-fast
-       
+        run: npm run test -- --tags="@broken or @utm"
 
-      # 7️⃣ Debug: list files to ensure report.js exists
-      - name: List repository files
-        run: dir
+      # 7️⃣ Generate HTML report (fail gracefully)
+      - name: Generate HTML Report
+        run: |
+          echo "Generating HTML report..."
+          node generate-html.js || echo "⚠️ HTML report generation failed or JSON missing."
 
-      # 8️⃣ Debug: check installed packages
-      - name: List installed Node packages
-        run: npm list --depth=0
-
-      # 9️⃣ Generate HTML report (fail gracefully)
-      # - name: Generate HTML Report
-      #   run: |
-      #     echo "Generating HTML report..."
-      #     node report.js || echo "⚠️ report.js failed or JSON missing, skipping HTML report generation."
-
-      # 🔟 Upload reports as artifacts
+      # 8️⃣ Upload reports as artifacts
       - name: Upload Reports
         uses: actions/upload-artifact@v4
         with:
